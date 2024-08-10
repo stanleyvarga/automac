@@ -13,10 +13,10 @@
     <integer>300</integer>
 
     <key>StandardOutPath</key>
-    <string>/Users/stanislavvarga/automac/logs/wallpaper_scheduler.log</string>
+    <string>/Users/stanislavvarga/.dotfiles/_automac/logs/wallpaper_scheduler.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/stanislavvarga/automac/logs/wallpaper_scheduler_error.log</string>
+    <string>/Users/stanislavvarga/.dotfiles/_automac/logs/wallpaper_scheduler_error.log</string>
 
     <key>RunAtLoad</key>
     <true/>
