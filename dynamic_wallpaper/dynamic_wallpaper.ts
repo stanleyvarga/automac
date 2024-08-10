@@ -50,10 +50,10 @@ const currentMonth: string = new Date().toLocaleString("default", { month: "long
 const currentHour: number = new Date().getHours();
 const currentTime: string = new Date().toLocaleTimeString();
 const currentDate: string = new Date().toLocaleDateString("en-GB").replace(/\//g, "-");
-const logFile: string = path.join(os.homedir(), "automac/logs/dynamic_wallpaper.log");
+const logFile: string = path.join(os.homedir(), ".dotfiles/_automac/logs/dynamic_wallpaper.log");
 const wallpapersDir: string = path.join(os.homedir(), "Wallpapers");
-const settingsFile: string = path.join(os.homedir(), "automac/wallpaper/settings.json");
-const wallpaperCountFile: string = path.join(os.homedir(), "automac/wallpaper/history.json");
+const settingsFile: string = path.join(os.homedir(), ".dotfiles/_automac/dynamic_wallpaper/settings.json");
+const wallpaperCountFile: string = path.join(os.homedir(), ".dotfiles/_automac/dynamic_wallpaper/history.json");
 
 function getRandomImage(images: string[]): string | undefined {
   return images[0];

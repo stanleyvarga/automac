@@ -18,7 +18,7 @@ interface Settings {
 }
 
 const wallpapersDir = path.join(os.homedir(), "Wallpapers");
-const settingsFile = `${process.env.HOME}/automac/wallpaper/settings.json`;
+const settingsFile = path.join(os.homedir(), ".dotfiles/_automac/dynamic_wallpaper/settings.json");
 
 export function saveSettings(settingsFile: string, settings: Settings): void {
   fs.writeFileSync(settingsFile, JSON.stringify(settings, null, 2));
