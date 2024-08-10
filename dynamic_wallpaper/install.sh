@@ -13,6 +13,6 @@ fi
 launchctl load -w "$sleepwatcher_plist"
 launchctl load -w "$wallpaper_scheduler_plist"
 
-chmod +x $DOTFILES/automac/dynamic_wallpaper/dynamic_wallpaper.ts
-chmod +x $DOTFILES/automac/dynamic_wallpaper/dynamic_wallpaper.sh
-chmod +x $DOTFILES/automac/dynamic_wallpaper/randomize_images.ts
+chmod +x $DOTFILES/_automac/dynamic_wallpaper/dynamic_wallpaper.ts
+chmod +x $DOTFILES/_automac/dynamic_wallpaper/dynamic_wallpaper.sh
+chmod +x $DOTFILES/_automac/dynamic_wallpaper/randomize_images.ts
