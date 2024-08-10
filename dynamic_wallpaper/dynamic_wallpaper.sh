@@ -1,1 +1,1 @@
-bun ./dynamic_wallpaper.ts
+bun dynamic_wallpaper.ts

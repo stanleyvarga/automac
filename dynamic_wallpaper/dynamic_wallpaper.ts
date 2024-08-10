@@ -4,10 +4,6 @@ import { $, fs, os, path } from "zx";
 
 // Define types
 
-interface WallpaperCount {
-  [key: string]: string;
-}
-
 type MonthTimes = {
   [key: string]: string;
 };
