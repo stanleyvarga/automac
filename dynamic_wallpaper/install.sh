@@ -16,3 +16,6 @@ launchctl load -w "$wallpaper_scheduler_plist"
 chmod +x $DOTFILES/_automac/dynamic_wallpaper/dynamic_wallpaper.ts
 chmod +x $DOTFILES/_automac/dynamic_wallpaper/dynamic_wallpaper.sh
 chmod +x $DOTFILES/_automac/dynamic_wallpaper/randomize_images.ts
+
+zsh -c "bun $DOTFILES/_automac/dynamic_wallpaper/randomize_images.ts"
+zsh -c "bun $DOTFILES/_automac/dynamic_wallpaper/dynamic_wallpaper.sh"
