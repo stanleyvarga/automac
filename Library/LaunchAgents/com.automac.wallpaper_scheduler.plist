@@ -6,7 +6,7 @@
     <string>com.automac.wallpaper_scheduler</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/stanislavvarga/automac/wallpaper/change_wallpaper.sh</string>
+        <string>/Users/stanislavvarga/.dotfiles/automac/dynamic_wallpaper/dynamic_wallpaper.sh</string>
     </array>
     
     <key>StartInterval</key>
