@@ -1,6 +1,6 @@
 # Define common paths and file names
-launch_agents_src_dir="Library/Launch Agents"
-launch_agents_dest_dir="$HOME/Library/Launch Agents"
+launch_agents_src_dir="Library/LaunchAgents"
+launch_agents_dest_dir="$HOME/Library/LaunchAgents"
 sleepwatcher_plist="de.bernhard-baehr.sleepwatcher.plist"
 wallpaper_scheduler_plist="com.automac.wallpaper_scheduler.plist"
 
