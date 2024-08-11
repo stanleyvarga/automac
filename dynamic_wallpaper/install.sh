@@ -47,5 +47,4 @@ chmod +x "$dynamic_wallpaper_sh"
 chmod +x "$randomize_images_ts"
 
 # Execute the scripts using zsh
-zsh -c "bun $randomize_images_ts"
 zsh -c "bun $dynamic_wallpaper_sh"
