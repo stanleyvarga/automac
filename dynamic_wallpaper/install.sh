@@ -5,8 +5,8 @@ sleepwatcher_plist="de.bernhard-baehr.sleepwatcher.plist"
 wallpaper_scheduler_plist="com.automac.wallpaper_scheduler.plist"
 
 # Copy plist files to the destination directory
-cp "$launch_agents_src_dir/$sleepwatcher_plist" "$launch_agents_dest_dir"
-cp "$launch_agents_src_dir/$wallpaper_scheduler_plist" "$launch_agents_dest_dir"
+ln -s "$launch_agents_src_dir/$sleepwatcher_plist" "$launch_agents_dest_dir/$sleepwatcher_plist"
+ln -s "$launch_agents_src_dir/$wallpaper_scheduler_plist" "$launch_agents_dest_dir/$wallpaper_scheduler_plist"
 
 # Check if the files have been copied properly
 if [ ! -f "$launch_agents_dest_dir/$sleepwatcher_plist" ]; then
