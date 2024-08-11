@@ -9,13 +9,13 @@ ln -s "$launch_agents_src_dir/$sleepwatcher_plist" "$launch_agents_dest_dir/$sle
 ln -s "$launch_agents_src_dir/$wallpaper_scheduler_plist" "$launch_agents_dest_dir/$wallpaper_scheduler_plist"
 
 # Check if the files have been copied properly
-if [ ! -f "$launch_agents_dest_dir/$sleepwatcher_plist" ]; then
-  echo "Error: $sleepwatcher_plist was not copied properly"
+if [ ! -L "$launch_agents_dest_dir/$sleepwatcher_plist" ]; then
+  echo "Error: Symlink for $sleepwatcher_plist was not created properly"
   exit 1
 fi
 
-if [ ! -f "$launch_agents_dest_dir/$wallpaper_scheduler_plist" ]; then
-  echo "Error: $wallpaper_scheduler_plist was not copied properly"
+if [ ! -L "$launch_agents_dest_dir/$wallpaper_scheduler_plist" ]; then
+  echo "Error: Symlink for $wallpaper_scheduler_plist was not created properly"
   exit 1
 fi
 
