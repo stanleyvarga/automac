@@ -19,8 +19,8 @@ if [ ! -L "$launch_agents_dest_dir/$wallpaper_scheduler_plist" ]; then
   exit 1
 fi
 
-chmod 644 "$launch_agents_dest_dir/$sleepwatcher_plist"
-chmod 644 "$launch_agents_dest_dir/$wallpaper_scheduler_plist"
+chmod 644 "$launch_agents_src_dir/$sleepwatcher_plist"
+chmod 644 "$launch_agents_src_dir/$wallpaper_scheduler_plist"
 
 # Unload plist files if they exist
 sleepwatcher_plist_path="$launch_agents_dest_dir/$sleepwatcher_plist"
