@@ -1,7 +1,5 @@
 echo "Installing automac ..."
 
-cp -r ./Library/LaunchAgents $HOME/Library/LaunchAgents
-
 chmod +x dynamic_wallpaper/install.sh
 zsh -c "dynamic_wallpaper/install.sh"
 

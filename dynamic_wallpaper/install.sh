@@ -1,3 +1,6 @@
+cp ../Library/LaunchAgents/de.bernhard-baehr.sleepwatcher.plist $HOME/Library/LaunchAgents
+cp ../Library/LaunchAgents/com.automac.wallpaper_sheduler.plist $HOME/Library/LaunchAgents
+
 # Unload sleepwatcher if it exists
 sleepwatcher_plist="$HOME/Library/LaunchAgents/de.bernhard-baehr.sleepwatcher.plist"
 if [ -f "$sleepwatcher_plist" ]; then
