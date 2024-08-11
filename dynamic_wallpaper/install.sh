@@ -1,6 +1,17 @@
 cp ../Library/LaunchAgents/de.bernhard-baehr.sleepwatcher.plist $HOME/Library/LaunchAgents
 cp ../Library/LaunchAgents/com.automac.wallpaper_sheduler.plist $HOME/Library/LaunchAgents
 
+# Check if the files have been copies properly
+if [ ! -f "$HOME/Library/LaunchAgents/de.bernhard-baehr.sleepwatcher.plist" ]; then
+  echo "Error: sleepwatcher.plist was not copied properly"
+  exit 1
+fi
+
+if [ ! -f "$HOME/Library/LaunchAgents/com.automac.wallpaper_scheduler.plist" ]; then
+  echo "Error: wallpaper_scheduler.plist was not copied properly"
+  exit 1
+fi
+
 # Unload sleepwatcher if it exists
 sleepwatcher_plist="$HOME/Library/LaunchAgents/de.bernhard-baehr.sleepwatcher.plist"
 if [ -f "$sleepwatcher_plist" ]; then
