@@ -1,35 +1,51 @@
-cp ../Library/LaunchAgents/de.bernhard-baehr.sleepwatcher.plist $HOME/Library/LaunchAgents
-cp ../Library/LaunchAgents/com.automac.wallpaper_sheduler.plist $HOME/Library/LaunchAgents
+# Define common paths and file names
+launch_agents_src_dir="Library/Launch Agents"
+launch_agents_dest_dir="$HOME/Library/Launch Agents"
+sleepwatcher_plist="de.bernhard-baehr.sleepwatcher.plist"
+wallpaper_scheduler_plist="com.automac.wallpaper_scheduler.plist"
 
-# Check if the files have been copies properly
-if [ ! -f "$HOME/Library/LaunchAgents/de.bernhard-baehr.sleepwatcher.plist" ]; then
-  echo "Error: sleepwatcher.plist was not copied properly"
+# Copy plist files to the destination directory
+cp "$launch_agents_src_dir/$sleepwatcher_plist" "$launch_agents_dest_dir"
+cp "$launch_agents_src_dir/$wallpaper_scheduler_plist" "$launch_agents_dest_dir"
+
+# Check if the files have been copied properly
+if [ ! -f "$launch_agents_dest_dir/$sleepwatcher_plist" ]; then
+  echo "Error: $sleepwatcher_plist was not copied properly"
   exit 1
 fi
 
-if [ ! -f "$HOME/Library/LaunchAgents/com.automac.wallpaper_scheduler.plist" ]; then
-  echo "Error: wallpaper_scheduler.plist was not copied properly"
+if [ ! -f "$launch_agents_dest_dir/$wallpaper_scheduler_plist" ]; then
+  echo "Error: $wallpaper_scheduler_plist was not copied properly"
   exit 1
 fi
 
-# Unload sleepwatcher if it exists
-sleepwatcher_plist="$HOME/Library/LaunchAgents/de.bernhard-baehr.sleepwatcher.plist"
-if [ -f "$sleepwatcher_plist" ]; then
-  launchctl unload -w "$sleepwatcher_plist"
+# Unload plist files if they exist
+sleepwatcher_plist_path="$launch_agents_dest_dir/$sleepwatcher_plist"
+wallpaper_scheduler_plist_path="$launch_agents_dest_dir/$wallpaper_scheduler_plist"
+
+if [ -f "$sleepwatcher_plist_path" ]; then
+  launchctl unload -w "$sleepwatcher_plist_path"
 fi
 
-# Unload wallpaper_scheduler if it exists
-wallpaper_scheduler_plist="$HOME/Library/LaunchAgents/com.automac.wallpaper_scheduler.plist"
-if [ -f "$wallpaper_scheduler_plist" ]; then
-  launchctl unload -w "$wallpaper_scheduler_plist"
+if [ -f "$wallpaper_scheduler_plist_path" ]; then
+  launchctl unload -w "$wallpaper_scheduler_plist_path"
 fi
 
-launchctl load -w "$sleepwatcher_plist"
-launchctl load -w "$wallpaper_scheduler_plist"
+# Load the plist files
+launchctl load -w "$sleepwatcher_plist_path"
+launchctl load -w "$wallpaper_scheduler_plist_path"
 
-chmod +x $DOTFILES/_automac/dynamic_wallpaper/dynamic_wallpaper.ts
-chmod +x $DOTFILES/_automac/dynamic_wallpaper/dynamic_wallpaper.sh
-chmod +x $DOTFILES/_automac/dynamic_wallpaper/randomize_images.ts
+# Define paths to scripts
+dynamic_wallpaper_dir="$DOTFILES/_automac/dynamic_wallpaper"
+dynamic_wallpaper_ts="$dynamic_wallpaper_dir/dynamic_wallpaper.ts"
+dynamic_wallpaper_sh="$dynamic_wallpaper_dir/dynamic_wallpaper.sh"
+randomize_images_ts="$dynamic_wallpaper_dir/randomize_images.ts"
 
-zsh -c "bun $DOTFILES/_automac/dynamic_wallpaper/randomize_images.ts"
-zsh -c "bun $DOTFILES/_automac/dynamic_wallpaper/dynamic_wallpaper.sh"
+# Make the scripts executable
+chmod +x "$dynamic_wallpaper_ts"
+chmod +x "$dynamic_wallpaper_sh"
+chmod +x "$randomize_images_ts"
+
+# Execute the scripts using zsh
+zsh -c "bun $randomize_images_ts"
+zsh -c "bun $dynamic_wallpaper_sh"
