@@ -4,6 +4,9 @@ launch_agents_dest_dir="$HOME/Library/LaunchAgents"
 sleepwatcher_plist="de.bernhard-baehr.sleepwatcher.plist"
 wallpaper_scheduler_plist="com.automac.wallpaper_scheduler.plist"
 
+chmod 644 "$launch_agents_dest_dir/$sleepwatcher_plist"
+chmod 644 "$launch_agents_dest_dir/$wallpaper_scheduler_plist"
+
 # Copy plist files to the destination directory
 ln -s "$launch_agents_src_dir/$sleepwatcher_plist" "$launch_agents_dest_dir/$sleepwatcher_plist"
 ln -s "$launch_agents_src_dir/$wallpaper_scheduler_plist" "$launch_agents_dest_dir/$wallpaper_scheduler_plist"
@@ -24,16 +27,18 @@ sleepwatcher_plist_path="$launch_agents_dest_dir/$sleepwatcher_plist"
 wallpaper_scheduler_plist_path="$launch_agents_dest_dir/$wallpaper_scheduler_plist"
 
 if [ -f "$sleepwatcher_plist_path" ]; then
-  launchctl unload -w "$sleepwatcher_plist_path"
+  launchctl unload "$sleepwatcher_plist_path"
 fi
 
 if [ -f "$wallpaper_scheduler_plist_path" ]; then
-  launchctl unload -w "$wallpaper_scheduler_plist_path"
+  launchctl unload "$wallpaper_scheduler_plist_path"
 fi
 
 # Load the plist files
 launchctl load -w "$sleepwatcher_plist_path"
 launchctl load -w "$wallpaper_scheduler_plist_path"
+
+launchctl load -w $HOME/Library/LaunchAgents/de.bernhard-baehr.sleepwatcher.plist
 
 # Define paths to scripts
 dynamic_wallpaper_dir="$DOTFILES/_automac/dynamic_wallpaper"
