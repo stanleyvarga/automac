@@ -46,7 +46,9 @@ const currentMonth: string = new Date().toLocaleString("default", { month: "long
 const currentHour: number = new Date().getHours();
 const currentTime: string = new Date().toLocaleTimeString();
 const currentDate: string = new Date().toLocaleDateString("en-GB").replace(/\//g, "-");
+
 const logFile: string = path.join(os.homedir(), ".dotfiles/_automac/logs/dynamic_wallpaper.log");
+const dynamicWallpaperPath: string = path.join(os.homedir(), ".dotfiles/_automac/dynamic_wallpaper");
 const wallpapersDir: string = path.join(os.homedir(), "Wallpapers");
 const settingsFile: string = path.join(os.homedir(), ".dotfiles/_automac/dynamic_wallpaper/settings.json");
 const wallpaperCountFile: string = path.join(os.homedir(), ".dotfiles/_automac/dynamic_wallpaper/history.json");
@@ -116,7 +118,7 @@ async function main() {
     if (settings.files[timeOfDay as keyof Settings["files"]].images.length === 0) {
       console.log("No images found. Running randomize.ts...");
       try {
-        await $`bun randomize_images.ts`;
+        await $`bun ${dynamicWallpaperPath}/randomize_images.ts`;
         console.log("Randomize script ran successfully.");
       } catch (error) {
         console.error("Error running script:", error);
