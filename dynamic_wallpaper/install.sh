@@ -4,23 +4,23 @@ launch_agents_dest_dir="$HOME/Library/LaunchAgents"
 sleepwatcher_plist="de.bernhard-baehr.sleepwatcher.plist"
 wallpaper_scheduler_plist="com.automac.wallpaper_scheduler.plist"
 
+chmod 644 "$launch_agents_src_dir/$sleepwatcher_plist"
+chmod 644 "$launch_agents_src_dir/$wallpaper_scheduler_plist"
+
 # Copy plist files to the destination directory
-ln -s "$launch_agents_src_dir/$sleepwatcher_plist" "$launch_agents_dest_dir/$sleepwatcher_plist"
-ln -s "$launch_agents_src_dir/$wallpaper_scheduler_plist" "$launch_agents_dest_dir/$wallpaper_scheduler_plist"
+sudo cp -v "$launch_agents_src_dir/$sleepwatcher_plist" "$launch_agents_dest_dir/$sleepwatcher_plist"
+sudo cp -v "$launch_agents_src_dir/$wallpaper_scheduler_plist" "$launch_agents_dest_dir/$wallpaper_scheduler_plist"
 
 # Check if the files have been copied properly
-if [ ! -L "$launch_agents_dest_dir/$sleepwatcher_plist" ]; then
+if [ ! -f "$launch_agents_dest_dir/$sleepwatcher_plist" ]; then
   echo "Error: Symlink for $sleepwatcher_plist was not created properly"
   exit 1
 fi
 
-if [ ! -L "$launch_agents_dest_dir/$wallpaper_scheduler_plist" ]; then
+if [ ! -f "$launch_agents_dest_dir/$wallpaper_scheduler_plist" ]; then
   echo "Error: Symlink for $wallpaper_scheduler_plist was not created properly"
   exit 1
 fi
-
-chmod 644 "$launch_agents_src_dir/$sleepwatcher_plist"
-chmod 644 "$launch_agents_src_dir/$wallpaper_scheduler_plist"
 
 # Unload plist files if they exist
 sleepwatcher_plist_path="$launch_agents_dest_dir/$sleepwatcher_plist"
