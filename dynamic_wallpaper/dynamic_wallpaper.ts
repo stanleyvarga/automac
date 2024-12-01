@@ -35,11 +35,11 @@ const MONTHS: MonthTimes = {
   may: "dawn:6 sunrise:7 morning:9 noon:12 sunset:18 dusk:20 night:21",
   june: "dawn:5 sunrise:6 morning:8 noon:12 sunset:21 dusk:22 night:23",
   july: "dawn:7 sunrise:8 morning:10 noon:12 sunset:16 dusk:17 night:19",
-  august: "dawn:7 sunrise:8 morning:10 noon:11 sunset:19 dusk:20 night:21",
-  september: "dawn:7 sunrise:8 morning:9 noon:12 sunset:17 dusk:18 night:19",
+  august: "dawn:7 sunrise:8 morning:9 noon:11 sunset:18 dusk:20 night:21",
+  september: "dawn:7 sunrise:8 morning:9 noon:11 sunset:17 dusk:18 night:20",
   october: "dawn:8 sunrise:9 morning:11 noon:12 sunset:17 dusk:18 night:19",
   november: "dawn:7 sunrise:8 morning:10 noon:12 sunset:18 dusk:20 night:21",
-  december: "dawn:8 sunrise:9 noon:12 morning:11 sunset:17 dusk:18 night:19",
+  december: "dawn:8 sunrise:9 morning:10 noon:11 sunset:15 dusk:16 night:17",
 };
 
 const currentMonth: string = new Date().toLocaleString("default", { month: "long" }).toLowerCase();
