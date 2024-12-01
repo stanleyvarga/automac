@@ -1,50 +1,161 @@
 #!/usr/bin/env ts-node
 
 import { $, fs, os, path } from "zx";
+import type { TimePeriod } from "./randomize_images";
 
-// Define types
-
-type MonthTimes = {
-  [key: string]: string;
+type Months = "january" | "february" | "march" | "april" | "may" | "june" | "july" | "august" | "september" | "october" | "november" | "december";
+type TimeOfDay = {
+  hours: number;
+  minutes: number;
 };
-
-type DayTime = {
-  length: number;
-  images: string[];
+type DaySchedule = {
+  dawn: TimeOfDay;
+  sunrise: TimeOfDay;
+  morning: TimeOfDay;
+  noon: TimeOfDay;
+  sunset: TimeOfDay;
+  dusk: TimeOfDay;
+  night: TimeOfDay;
 };
-
 interface Settings {
   state: { current: string };
   files: {
-    dawn: DayTime;
-    sunrise: DayTime;
-    morning: DayTime;
-    noon: DayTime;
-    sunset: DayTime;
-    dusk: DayTime;
-    night: DayTime;
+    [K in TimePeriod]: {
+      images: string[];
+      hours: number;
+      minutes: number;
+    };
   };
 }
 
-// Constants
-const MONTHS: MonthTimes = {
-  january: "dawn:6 sunrise:7 morning:9 noon:12 sunset:18 dusk:20 night:21",
-  february: "dawn:5 sunrise:6 morning:8 noon:12 sunset:21 dusk:22 night:23",
-  march: "dawn:7 sunrise:8 morning:10 noon:12 sunset:16 dusk:17 night:19",
-  april: "dawn:8 sunrise:9 morning:11 noon:12 sunset:17 dusk:18 night:19",
-  may: "dawn:6 sunrise:7 morning:9 noon:12 sunset:18 dusk:20 night:21",
-  june: "dawn:5 sunrise:6 morning:8 noon:12 sunset:21 dusk:22 night:23",
-  july: "dawn:7 sunrise:8 morning:10 noon:12 sunset:16 dusk:17 night:19",
-  august: "dawn:7 sunrise:8 morning:9 noon:11 sunset:18 dusk:20 night:21",
-  september: "dawn:7 sunrise:8 morning:9 noon:11 sunset:17 dusk:18 night:20",
-  october: "dawn:8 sunrise:9 morning:11 noon:12 sunset:17 dusk:18 night:19",
-  november: "dawn:7 sunrise:8 morning:10 noon:12 sunset:18 dusk:20 night:21",
-  december: "dawn:8 sunrise:9 morning:10 noon:11 sunset:15 dusk:16 night:17",
+let settings: Settings = {
+  state: { current: "" },
+  files: {
+    dawn: { hours: 0, minutes: 0, images: [] },
+    sunrise: { hours: 0, minutes: 0, images: [] },
+    morning: { hours: 0, minutes: 0, images: [] },
+    noon: { hours: 0, minutes: 0, images: [] },
+    sunset: { hours: 0, minutes: 0, images: [] },
+    dusk: { hours: 0, minutes: 0, images: [] },
+    night: { hours: 0, minutes: 0, images: [] },
+  },
 };
 
-const currentMonth: string = new Date().toLocaleString("default", { month: "long" }).toLowerCase();
-const currentHour: number = new Date().getHours();
-const currentTime: string = new Date().toLocaleTimeString();
+const MONTHS: Record<Months, DaySchedule> = {
+  january: {
+    dawn: { hours: 7, minutes: 0 },
+    sunrise: { hours: 8, minutes: 0 },
+    morning: { hours: 9, minutes: 0 },
+    noon: { hours: 12, minutes: 0 },
+    sunset: { hours: 16, minutes: 0 },
+    dusk: { hours: 17, minutes: 0 },
+    night: { hours: 18, minutes: 0 },
+  },
+  february: {
+    dawn: { hours: 7, minutes: 0 },
+    sunrise: { hours: 7, minutes: 30 },
+    morning: { hours: 9, minutes: 0 },
+    noon: { hours: 12, minutes: 0 },
+    sunset: { hours: 17, minutes: 0 },
+    dusk: { hours: 18, minutes: 0 },
+    night: { hours: 19, minutes: 0 },
+  },
+  march: {
+    dawn: { hours: 6, minutes: 30 },
+    sunrise: { hours: 7, minutes: 0 },
+    morning: { hours: 9, minutes: 0 },
+    noon: { hours: 12, minutes: 0 },
+    sunset: { hours: 18, minutes: 0 },
+    dusk: { hours: 19, minutes: 0 },
+    night: { hours: 20, minutes: 0 },
+  },
+  april: {
+    dawn: { hours: 6, minutes: 0 },
+    sunrise: { hours: 6, minutes: 30 },
+    morning: { hours: 9, minutes: 0 },
+    noon: { hours: 12, minutes: 0 },
+    sunset: { hours: 19, minutes: 0 },
+    dusk: { hours: 20, minutes: 0 },
+    night: { hours: 21, minutes: 0 },
+  },
+  may: {
+    dawn: { hours: 5, minutes: 30 },
+    sunrise: { hours: 6, minutes: 0 },
+    morning: { hours: 9, minutes: 0 },
+    noon: { hours: 12, minutes: 0 },
+    sunset: { hours: 20, minutes: 0 },
+    dusk: { hours: 21, minutes: 0 },
+    night: { hours: 22, minutes: 0 },
+  },
+  june: {
+    dawn: { hours: 5, minutes: 0 },
+    sunrise: { hours: 5, minutes: 30 },
+    morning: { hours: 9, minutes: 0 },
+    noon: { hours: 12, minutes: 0 },
+    sunset: { hours: 21, minutes: 0 },
+    dusk: { hours: 22, minutes: 0 },
+    night: { hours: 23, minutes: 0 },
+  },
+  july: {
+    dawn: { hours: 5, minutes: 30 },
+    sunrise: { hours: 6, minutes: 0 },
+    morning: { hours: 9, minutes: 0 },
+    noon: { hours: 12, minutes: 0 },
+    sunset: { hours: 21, minutes: 0 },
+    dusk: { hours: 22, minutes: 0 },
+    night: { hours: 23, minutes: 0 },
+  },
+  august: {
+    dawn: { hours: 6, minutes: 0 },
+    sunrise: { hours: 6, minutes: 30 },
+    morning: { hours: 9, minutes: 0 },
+    noon: { hours: 12, minutes: 0 },
+    sunset: { hours: 20, minutes: 0 },
+    dusk: { hours: 21, minutes: 0 },
+    night: { hours: 22, minutes: 0 },
+  },
+  september: {
+    dawn: { hours: 6, minutes: 30 },
+    sunrise: { hours: 7, minutes: 0 },
+    morning: { hours: 9, minutes: 0 },
+    noon: { hours: 12, minutes: 0 },
+    sunset: { hours: 19, minutes: 0 },
+    dusk: { hours: 20, minutes: 0 },
+    night: { hours: 21, minutes: 0 },
+  },
+  october: {
+    dawn: { hours: 7, minutes: 0 },
+    sunrise: { hours: 7, minutes: 30 },
+    morning: { hours: 9, minutes: 0 },
+    noon: { hours: 12, minutes: 0 },
+    sunset: { hours: 18, minutes: 0 },
+    dusk: { hours: 19, minutes: 0 },
+    night: { hours: 20, minutes: 0 },
+  },
+  november: {
+    dawn: { hours: 7, minutes: 0 },
+    sunrise: { hours: 7, minutes: 30 },
+    morning: { hours: 9, minutes: 0 },
+    noon: { hours: 12, minutes: 0 },
+    sunset: { hours: 17, minutes: 0 },
+    dusk: { hours: 18, minutes: 0 },
+    night: { hours: 19, minutes: 0 },
+  },
+  december: {
+    dawn: { hours: 7, minutes: 0 },
+    sunrise: { hours: 8, minutes: 0 },
+    morning: { hours: 9, minutes: 30 },
+    noon: { hours: 12, minutes: 0 },
+    sunset: { hours: 16, minutes: 0 },
+    dusk: { hours: 17, minutes: 0 },
+    night: { hours: 18, minutes: 0 },
+  },
+};
+
+const currentMonth: Months = new Date().toLocaleString("default", { month: "long" }).toLowerCase() as Months;
+// const now = new Date();
+const currentMinutes: number = 9 * 60 + 29;
+// const currentMinutes: number = now.getHours() * 60 + now.getMinutes();
 const currentDate: string = new Date().toLocaleDateString("en-GB").replace(/\//g, "-");
 
 const logFile: string = path.join(os.homedir(), ".dotfiles/_automac/logs/dynamic_wallpaper.log");
@@ -81,32 +192,28 @@ function updateWallpaperCount(imagePath: string): void {
   fs.writeFileSync(wallpaperCountFile, JSON.stringify(sortedWallpaperCount, null, 2));
 }
 
+const minutesToHours = (min: number): string => {
+  const hours = Math.floor(min / 60)
+    .toString()
+    .padStart(2, "0");
+  const minutes = (min % 60).toString().padStart(2, "0");
+  return `${hours}:${minutes}`;
+};
+
 async function main() {
-  let timeOfDay: string = "";
-  for (const [period, hour] of MONTHS[currentMonth].split(" ").map((x) => x.split(":"))) {
-    if (currentHour >= parseInt(hour)) {
-      timeOfDay = period;
+  let timeOfDay: keyof DaySchedule = "night"; // default
+  const schedule = MONTHS[currentMonth];
+  for (const [period, time] of Object.entries(schedule)) {
+    const timeInMinutes = time.hours * 60 + time.minutes;
+
+    console.log("TIME_IN_MINUTES", period, minutesToHours(timeInMinutes));
+
+    if (currentMinutes >= timeInMinutes) {
+      timeOfDay = period as keyof DaySchedule;
     } else {
       break;
     }
   }
-
-  if (!timeOfDay) {
-    timeOfDay = "night";
-  }
-
-  let settings: Settings = {
-    state: { current: "" },
-    files: {
-      dawn: { length: 0, images: [] },
-      sunrise: { length: 0, images: [] },
-      morning: { length: 0, images: [] },
-      noon: { length: 0, images: [] },
-      sunset: { length: 0, images: [] },
-      dusk: { length: 0, images: [] },
-      night: { length: 0, images: [] },
-    },
-  };
 
   if (fs.existsSync(settingsFile)) {
     settings = JSON.parse(fs.readFileSync(settingsFile, "utf-8"));
@@ -114,7 +221,10 @@ async function main() {
 
   const previousState = settings.state.current;
 
+  console.log(`Current: ${timeOfDay}, Previous : ${previousState}`);
+
   if (timeOfDay !== previousState) {
+    console.log("Changing wallpaper...");
     if (settings.files[timeOfDay as keyof Settings["files"]].images.length === 0) {
       console.log("No images found. Running randomize.ts...");
       try {
@@ -129,7 +239,7 @@ async function main() {
     const fullImagePath = `${wallpapersDir}/${timeOfDay}/${getRandomImage(settings.files[timeOfDay as keyof Settings["files"]].images)}`;
 
     if (!fullImagePath) {
-      await $`echo "[${currentDate} ${currentTime}] No image found" >> ${logFile}`;
+      await $`echo "[${currentDate} ${currentMinutes}] No image found" >> ${logFile}`;
       process.exit(1);
     }
 
@@ -144,7 +254,7 @@ async function main() {
         await $`killall WallpaperAgent`.quiet();
       } catch (error) {
         console.error("Error changing wallpaper:", error);
-        await $`echo "[${currentDate} ${currentTime}] Error changing wallpaper: ${error}" >> ${logFile}`;
+        await $`echo "[${currentDate} ${currentMinutes}] Error changing wallpaper: ${error}" >> ${logFile}`;
       }
     } else {
       console.log("Plist file not found. Trying alternative method to change wallpaper.");
@@ -152,17 +262,19 @@ async function main() {
         await $`osascript -e 'tell application "Finder" to set desktop picture to POSIX file "${fullImagePath}"'`.quiet();
       } catch (error) {
         console.error("Error changing wallpaper with alternative method:", error);
-        await $`echo "[${currentDate} ${currentTime}] Error changing wallpaper with alternative method: ${error}" >> ${logFile}`;
+        await $`echo "[${currentDate} ${currentMinutes}] Error changing wallpaper with alternative method: ${error}" >> ${logFile}`;
       }
     }
 
     // Update the wallpaper count
     updateWallpaperCount(fullImagePath);
 
+    // await $`echo "[${currentDate} ${currentTime}] `;
     settings.state.current = timeOfDay;
     saveSettings(settingsFile, settings);
   } else {
-    await $`echo "[${currentDate} ${currentTime}] Skipping update, wallpaper for ${timeOfDay} already set" >> ${logFile}`;
+    await $`echo "[${currentDate} ${currentMinutes}] Skipping update, wallpaper for ${timeOfDay} already set" >> ${logFile}`;
+    await $`echo "No change needed, wallpaper already set for this time of day."`;
   }
 }
 
